@@ -12,7 +12,7 @@ void sys_err(const char * error)
 }
 int main(int argc,char *argv[])
 {
-
+	print("hello world\n");
     exit(0);
 }
 
