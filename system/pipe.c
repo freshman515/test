@@ -13,28 +13,22 @@ void sys_err(const char * error)
 }
 int main(int argc,char *argv[])
 {
-	fflush();
+	int fd[2];
+	pipe(fd);
+	fflush(NULL);
 	pid_t pid = fork();
-	assert(pid>=0);
-	int status;
-	if(pid > 0)
+	if(pid == 0)
 	{
-		printf("i am parent ,my pid is %d \n",getpid());
-		wait(&status);
-	
-
+		char str[20];
+		read(fd[0],str,sizeof(str));
+		printf("i am son, i am reading all data,it is %s\n",str);
 	}
 	else
 	{
-		for(int i = 0;i<5;i++)
-		{
-			printf("-------\n");
-			sleep(1);
-		}
-		exit(5);
+		write(fd[1],"hello world",strlen("hello world"));
+		wait(NULL);
 	}
-	printf("child process exit status is %d\n",WEXITSTATUS(status));
-
+	
     exit(0);
 }
 
